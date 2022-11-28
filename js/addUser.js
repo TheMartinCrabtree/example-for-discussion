@@ -19,6 +19,9 @@ Dynamically add a user to the users list.
 
 
 // START YOUR CODE HERE
+// const {ServiceWrapper, ClientHandler, HOOKS} = require("js-service-wrapper");
+import {ServiceWrapper, ClientHandler, HOOKS} from "js-service-wrapper.js";
+
 let nameInput = "";
 let emailInput = "";
 
@@ -64,15 +67,20 @@ const handleButtonClick=(event)=>{
     };
 
     const submitUser=()=>{
-        const asyncWrapper = async (addUser(username, email, callback), params = null) => {
-            try {
-                const data = await asyncFunction(params)
-                return [data, null]
-            }
-            catch (error) {
-                return [ null, error ]
-            }
-        }
+        // const asyncWrapper = async (addUser(username, email, callback), params = null) => {
+        //     try {
+        //         const data = await asyncFunction(params)
+        //         return [data, null]
+        //     }
+        //     catch (error) {
+        //         return [ null, error ]
+        //     }
+        // }
+        const getResponseText=(response)=>console.log("Reponse is: ", response);
+
+        addUser(nameInput, emailInput, getResponseText);
+
+
         removeErrorMessage();
     };
 
@@ -120,9 +128,11 @@ function addUser(username, email, callback) {
     
     xhr.open("POST", "/echo/json/");
     xhr.onload = function () {
+            console.log("calling onload function")
     		if (xhr.status === 200) {
         		callback(JSON.parse(xhr.responseText));
         }
     }
     xhr.send("json=" + response);
+    console.log("var response: ", response);
 };
